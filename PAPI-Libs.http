@@ -1,0 +1,11 @@
+@PAPI_Libs_HostAddress = http://localhost:5036
+
+GET {{PAPI_Libs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{PAPI_Libs_HostAddress}}/pizza/
+Accept: application/json
+
+###

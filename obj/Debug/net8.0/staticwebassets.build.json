@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "vYFazrL2ucg2VXChEr6RJkNAA9h2lEhq8vtP18C8nK4=",
+  "Source": "PAPI-Libs",
+  "BasePath": "_content/PAPI-Libs",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
