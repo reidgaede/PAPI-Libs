@@ -30,3 +30,4 @@
 /Users/Reid/Documents/CodeKentucky_Projects/CapstoneProject/PAPI-Libs/obj/Debug/net8.0/PAPI-Libs.pdb
 /Users/Reid/Documents/CodeKentucky_Projects/CapstoneProject/PAPI-Libs/obj/Debug/net8.0/PAPI-Libs.genruntimeconfig.cache
 /Users/Reid/Documents/CodeKentucky_Projects/CapstoneProject/PAPI-Libs/obj/Debug/net8.0/ref/PAPI-Libs.dll
+/Users/Reid/Documents/CodeKentucky_Projects/CapstoneProject/PAPI-Libs/obj/Debug/net8.0/PAPI-Libs.sourcelink.json
