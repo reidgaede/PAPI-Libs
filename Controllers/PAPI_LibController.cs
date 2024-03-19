@@ -19,13 +19,13 @@ public class PAPI_LibController : ControllerBase
     // GET all action
     [HttpGet]
     public ActionResult<List<PAPI_Lib>> GetAll() =>
-        PAPI_LIBService.GetAll();
+        PAPI_LibService.GetAll();
 
     // GET by Id action
     [HttpGet("{id}")]
     public ActionResult<PAPI_Lib> Get(int id)
     {
-        var papi_lib = PAPI_LIBService.Get(id);
+        var papi_lib = PAPI_LibService.Get(id);
 
         if(papi_lib == null)
             return NotFound();
@@ -35,9 +35,13 @@ public class PAPI_LibController : ControllerBase
 
     // POST action
     [HttpPost]
-    public IActionResult Create(PAPI_Lib papi_lib)
+    /* (3/18/24, 4) I wonder what would happen if we took out the parameter (i.e., `PAPI_Lib papi_lib`) passed 
+    to the `Post` method...? */
+    /* (3/18/24, 5) BINGO. PROGRESS! */
+    public IActionResult Post()
     {            
-        PAPI_LIBService.Add(papi_lib);
+        PAPI_Lib papi_lib = new PAPI_Lib();
+        PAPI_LibService.Add(papi_lib);
         return CreatedAtAction(nameof(Get), new { id = papi_lib.Id }, papi_lib);
     }
 
@@ -48,11 +52,11 @@ public class PAPI_LibController : ControllerBase
         if (id != papi_lib.Id)
             return BadRequest();
             
-        var existingPAPI_Lib = PAPI_LIBService.Get(id);
+        var existingPAPI_Lib = PAPI_LibService.Get(id);
         if(existingPAPI_Lib is null)
             return NotFound();
     
-        PAPI_LIBService.Update(papi_lib);           
+        PAPI_LibService.Update(papi_lib);           
     
         return NoContent();
     }
@@ -61,12 +65,12 @@ public class PAPI_LibController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var papi_lib = PAPI_LIBService.Get(id);
+        var papi_lib = PAPI_LibService.Get(id);
     
         if (papi_lib is null)
             return NotFound();
         
-        PAPI_LIBService.Delete(id);
+        PAPI_LibService.Delete(id);
     
         return NoContent();
     }

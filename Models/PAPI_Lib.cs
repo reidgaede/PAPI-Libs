@@ -5,7 +5,7 @@ public class PAPI_Lib
     public int Id { get; set; }
     public string PAPI_LibTemplate { get; set; }
     public string OriginalQuote { get; set; }
-    public string OriginalQuoteAuthor { get; set; }
+    public string OriginalQuoteAuthorOrSource { get; set; }
     public int TemplateId { get; set; }
     public string? CompletedString { get; set; }
     public string ApiUrlOne { get; set; }
