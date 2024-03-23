@@ -45,16 +45,34 @@ public class PAPI_LibController : ControllerBase
 
     // PUT action
     [HttpPut("{id}")]
-    public IActionResult Update(int id, PAPI_Lib papi_lib)
+    /* (3/22/24, 1) So, as the `PUT` action CURRENTLY exists, it accepts BOTH an `id` value AND a `PAPI_Lib` object 
+    AS INPUT. Currently, I THINK that I want it so that the `Update()` method (which SERVES as a `PUT` action) to ONLY 
+    accept an `id` value so that users themselves DO NOT have the option to specify themselves what the `PAPI_Lib`'s 
+    updated property values are going to be. AS SUCH, I think my first step here is going to be to re-write this method 
+    so that it can function WITHOUT being passed a `PAPI_Lib` object (...): */
+    public async Task<IActionResult> Update(int id)
     {
-        if (id != papi_lib.Id)
-            return BadRequest();
+        /* (3/22/24, 2) Not rightly sure how to deal with this, so just commenting it out for now: */
+        //if (id != papi_lib.Id)
+            //return BadRequest();
             
         var existingPAPI_Lib = PAPI_LibService.Get(id);
         if(existingPAPI_Lib is null)
             return NotFound();
     
-        PAPI_LibService.Update(papi_lib);           
+        /* (3/22/24, 3) Alright, we MIGHT be starting to get somewhere. From here, I THINK that we basically want to "re-
+        write" the `Update()` method found in "PAPI_LibService.cs" so that it no longer takes a `PAPI_Lib` object as its 
+        input, but RATHER the `id` value from the `Update()` method in "PAPI_LibController.cs". The reason for this is that 
+        since users (by my (crazy) design) will NOT be able to DIRECTLY update the values of a chosen `PAPI_Lib` object 
+        themselves, there is no need for any sort of interaction with the `PAPI_Lib` object in question to take palce within 
+        the controller itself (...I think?)! INSTEAD, ALL that stuff with OBTAINING the `PAPI_Lib` object to be updated, 
+        RANDOMLY updating it, etc. is done within "PAPI_LibService.cs" (...I think?). LONG STORY SHORT: go to 
+        "PAPI_LibService.cs" and start re-writing the `Update()` method there so that while it does NOT take a `PAPI_Lib` 
+        object as an input, it DOES FETCH the `PAPI_Lib` object with the matching `id` value and FROM THERE BASICALLY 
+        re-executes the randomization process based on the `TemplateId` value or whatever (!):*/
+        PAPI_LibService.Update(existingPAPI_Lib); // (3/22/24, 4) Doing this contradicts what I wrote above, but let's try!
+        /* (3/22/24, 4) LOOKS LIKE your conceptual pivot visible in the line of code immediately above this comment DID 
+        work! */           
     
         return NoContent();
     }

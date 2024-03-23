@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 /* (3/17/24, 13) Bringing this in to try and deserialize the responses we get from APIs: */
 using System.Text.Json;
 using PAPI_Libs.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PAPI_Libs.Services;
 
@@ -85,7 +86,7 @@ public static class PAPI_LibService
                 OriginalQuoteAuthorOrSource = "Common English Proverb",
                 TemplateId = 1,
                 CompletedString = "When life gives you durian, completely envisioneer frictionless sprints.",
-                ApiUrlOne = "https://www.fruityvice.com/api/fruit/",
+                ApiUrlOne = "https://www.fruityvice.com/api/fruit/{0}",
                 ApiNameOne = "Fruityvice API",
                 ApiUrlTwo = "https://corporatebs-generator.sameerkumar.website/",
                 ApiNameTwo = "Corporate Buzzword Generator API"
@@ -369,13 +370,178 @@ public static class PAPI_LibService
         PAPI_Libs.Remove(papi_lib);
     }
 
-    public static void Update(PAPI_Lib papi_lib)
+    public static async Task Update(PAPI_Lib papi_lib)
     {
         var index = PAPI_Libs.FindIndex(p => p.Id == papi_lib.Id);
         if(index == -1)
             return;
 
-        PAPI_Libs[index] = papi_lib;
+        /* (3/22/24, 5) Past this point, BASICALLY just copied/pasted the `switch` statement from the `Add()` method in this file
+        and replaced any reference to `PAPI_Libs.Add(papi_lib);` with `PAPI_Libs[index] = papi_lib` AND "culled" unnecessary code 
+        from the original version of this `switch` statement that would be unnecessary in a `PUT` action (!): */
+        Random putNumberGenerator = new Random();
+
+        switch(papi_lib.TemplateId)
+        {
+            /* (3/22/24, 6) CRUCIAL - I ALMOST forgot to increment the value tested in each `case` block by 1 (in the original version of 
+            this `switch` statement in the `Add()` method in this file, each case was testing the ZERO-INDEXED INDEX VALUE of a `PAPI_LibTemplate` 
+            object that would exist in the `PAPI_LibTemplates` List in this file; in THIS `switch` statement, on the other hand, we want to test the 
+            `TemplateId` value of a given `PAPI_Lib` object passed into this service's `Update()` method via the PAPI_Lib controller): */
+            case 1:
+                int selectedFruitId = putNumberGenerator.Next(64, 73);
+
+                async Task<string> GetFruit(int id)
+                {
+                    string url = String.Format(papi_lib.ApiUrlOne, id);
+                    
+                    using (HttpClient client = new HttpClient())
+                    {
+                        string fruityviceResponse = await client.GetStringAsync(url);
+                        
+                        Fruit fruit = JsonSerializer.Deserialize<Fruit>(fruityviceResponse);
+
+                        return fruit.Name;
+                    }
+                }
+
+                string fruit = await GetFruit(selectedFruitId);
+                string fruitFormatted = fruit.ToLower();
+
+                async Task<string> GetCorporateBuzzwords()
+                {
+                    string url = papi_lib.ApiUrlTwo;
+                    using (HttpClient client = new HttpClient())
+                    {
+                        string corporateBuzzwordsResponse = await client.GetStringAsync(url);
+                        CorporateBuzzwords corporateBuzzwords = JsonSerializer.Deserialize<CorporateBuzzwords>(corporateBuzzwordsResponse);
+                        return corporateBuzzwords.Phrase;
+                    }
+                }
+
+                string corporateBs = await GetCorporateBuzzwords();
+                string corporateBsFormatted = corporateBs.ToLower();
+
+                papi_lib.CompletedString = $"When life gives you {fruitFormatted}, {corporateBsFormatted}.";
+
+                PAPI_Libs[index] = papi_lib;
+                break;
+            case 2:
+                async Task<string> GetGenre()
+                {
+                    string url = papi_lib.ApiUrlOne;
+                    
+                    using (HttpClient client = new HttpClient())
+                    {
+                        return await client.GetStringAsync(url);
+                    }
+                }
+
+                string musicGenre = await GetGenre();
+                musicGenre = musicGenre.Trim('"');
+                string musicGenreFormatted = UppercaseFirst(musicGenre);
+
+                papi_lib.CompletedString = $"{musicGenreFormatted} makes the heart grow fonder.";
+                
+                PAPI_Libs[index] = papi_lib;
+                break;
+            case 3:
+                async Task<string> GetStory()
+                {
+                    string url = papi_lib.ApiUrlOne;
+                    
+                    using (HttpClient client = new HttpClient())
+                    {
+                        return await client.GetStringAsync(url);
+                    }
+                }
+
+                string musicStory = await GetStory();
+                musicStory = musicStory.Trim('"');
+                string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
+                musicStoryFormatted += ",";
+
+                papi_lib.CompletedString = $"As Jesus was walking beside the Sea of Galilee, he saw two brothers, Simon called Peter and his brother Andrew. They were casting a net into the lake, for they were fishermen. '{musicStoryFormatted}' Jesus said. At once they left their nets and followed him.";
+                
+                PAPI_Libs[index] = papi_lib;
+                break;
+            case 4:
+                int selectedBookId = putNumberGenerator.Next(1, 1001);
+
+                async Task<string> GetBook(int id)
+                {
+                    string url = String.Format(papi_lib.ApiUrlOne, id);
+                    
+                    using (HttpClient client = new HttpClient())
+                    {
+                        string gutenedexResponse =  await client.GetStringAsync(url);
+
+                        Book book = JsonSerializer.Deserialize<Book>(gutenedexResponse);
+
+                        return book.Title;
+                    }
+                }
+
+                string book = await GetBook(selectedBookId);
+
+                papi_lib.CompletedString = $"'{book}' is the Guide Which I Will Never Abandon.";
+
+                PAPI_Libs[index] = papi_lib;
+                break;
+            case 5:
+                List<int> idList = new List<int>
+                {
+                    16460,
+                    72520,
+                    207528,
+                    261876,
+                    259686,
+                    269278,
+                    270797,
+                    282161,
+                    344619,
+                    347567,
+                    907116,
+                    905064,
+                    889576,
+                    888476,
+                    853075,
+                    814822,
+                    815150,
+                    787967,
+                    782239,
+                    756448,
+                    751191,
+                    716307,
+                    698842,
+                    687539,
+                    569710,
+                    495324
+                };
+
+                int randomIndex = putNumberGenerator.Next(idList.Count);
+                int selectedArtworkId = idList[randomIndex];
+
+                async Task<string> GetArtwork(int id)
+                {
+                    string url = String.Format(papi_lib.ApiUrlOne, id);
+                    
+                    using (HttpClient client = new HttpClient())
+                    {
+                        string collectionApiResponse =  await client.GetStringAsync(url);
+
+                        Artwork artWork = JsonSerializer.Deserialize<Artwork>(collectionApiResponse);
+
+                        return artWork.Title;
+                    }
+                }
+
+                string artWork = await GetArtwork(selectedArtworkId);
+
+                papi_lib.CompletedString = $"I really believe that if you practice enough, you could paint '{artWork}' with a two-inch brush.";
+
+                PAPI_Libs[index] = papi_lib;
+                break;
+        }        
     }
 
     public static string UppercaseFirst(string s)
