@@ -35,13 +35,11 @@ public class PAPI_LibController : ControllerBase
 
     // POST action
     [HttpPost]
-    /* (3/18/24, 4) I wonder what would happen if we took out the parameter (i.e., `PAPI_Lib papi_lib`) passed 
-    to the `Post` method...? */
-    /* (3/18/24, 5) BINGO. PROGRESS! */
-    public IActionResult Post()
+    /* (3/19/24, 4) Updated this method's/action's signature in order to make it PROPERLY "asynchronous" (!): */
+    public async Task<IActionResult> Post()
     {            
         PAPI_Lib papi_lib = new PAPI_Lib();
-        PAPI_LibService.Add(papi_lib);
+        await PAPI_LibService.Add(papi_lib);
         return CreatedAtAction(nameof(Get), new { id = papi_lib.Id }, papi_lib);
     }
 

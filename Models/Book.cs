@@ -4,9 +4,14 @@ namespace PAPI_Libs.Models;
 
 public class Author
     {
-        public string name { get; set; }
-        public int birth_year { get; set; }
-        public int death_year { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("birth_year")]
+        public int? BirthYear { get; set; }
+
+        [JsonPropertyName("death_year")]
+        public int? DeathYear { get; set; }
     }
 
     public class Formats
@@ -18,44 +23,65 @@ public class Author
         "Formats" class, to replace `JsonProperty` (which for some reason returned an error) with `JsonPropertyName` (no guarantee that this will ultimately 
         work, BUT it is worth a shot!): */
         [JsonPropertyName("text/html")]
-        public string texthtml { get; set; }
+        public string TextHtml { get; set; }
 
         [JsonPropertyName("text/html; charsetutf-8")]
-        public string texthtmlcharsetutf8 { get; set; }
+        public string TextHtmlCharsetUtf8 { get; set; }
 
         [JsonPropertyName("application/epub+zip")]
-        public string applicationepubzip { get; set; }
+        public string ApplicationepubZip { get; set; }
 
         [JsonPropertyName("application/x-mobipocket-ebook")]
-        public string applicationxmobipocketebook { get; set; }
+        public string ApplicationXMobipocketEbook { get; set; }
 
         [JsonPropertyName("text/plain; charsetutf-8")]
-        public string textplaincharsetutf8 { get; set; }
+        public string TextPlainCharsetUtf8 { get; set; }
 
         [JsonPropertyName("application/rdf+xml")]
-        public string applicationrdfxml { get; set; }
+        public string ApplicationRdfXml { get; set; }
 
         [JsonPropertyName("image/jpeg")]
-        public string imagejpeg { get; set; }
+        public string ImageJpeg { get; set; }
 
         [JsonPropertyName("application/octet-stream")]
-        public string applicationoctetstream { get; set; }
+        public string ApplicationOctetStream { get; set; }
 
         [JsonPropertyName("text/plain; charsetus-ascii")]
-        public string textplaincharsetusascii { get; set; }
+        public string TextPlainCharsetUsAscii { get; set; }
     }
 
     public class Book
     {
-        public int id { get; set; }
-        public string title { get; set; }
-        public List<Author> authors { get; set; }
-        public List<object> translators { get; set; }
-        public List<string> subjects { get; set; }
-        public List<string> bookshelves { get; set; }
-        public List<string> languages { get; set; }
-        public bool copyright { get; set; }
-        public string media_type { get; set; }
-        public Formats formats { get; set; }
-        public int download_count { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
+        [JsonPropertyName("authors")]
+        public List<Author> Authors { get; set; }
+
+        [JsonPropertyName("translators")]
+        public List<object> Translators { get; set; }
+
+        [JsonPropertyName("subjects")]
+        public List<string> Subjects { get; set; }
+
+        [JsonPropertyName("bookshelves")]
+        public List<string> Bookshelves { get; set; }
+
+        [JsonPropertyName("languages")]
+        public List<string> Languages { get; set; }
+
+        [JsonPropertyName("copyright")]
+        public bool Copyright { get; set; }
+
+        [JsonPropertyName("media_type")]
+        public string MediaType { get; set; }
+
+        [JsonPropertyName("formats")]
+        public Formats Formats { get; set; }
+
+        [JsonPropertyName("download_count")]
+        public int Download_count { get; set; }
     }
