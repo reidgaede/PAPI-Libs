@@ -1,7 +1,3 @@
-/* (3/17/24, 3) STARTING to get this set-up just so that I can start putting more pieces into place (note that as currently 
-imagined, ALL the `GET` ACTIONS SHOWN IN THE "APIGetTestControoler.cs" file WILL be moved to "PAPI_LibService.cs" UNLESS doing so 
-proves to be overly-challenging. */
-
 using PAPI_Libs.Models;
 using PAPI_Libs.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,20 +8,32 @@ namespace PAPI_Libs.Controllers;
 [Route("[controller]")]
 public class PAPI_LibController : ControllerBase
 {
-    public PAPI_LibController()
+    /* (3/24/24, 30) Attempted to `build` my Solution once again and had seven errors returned in-terminal: all to the 
+    effect of "error CS0120: An object reference is required for the non-static field, method, or property 
+    'PAPI_LibService.GetById(int)'", "error CS0120: An object reference is required for the non-static field, method, 
+    or property 'PAPI_LibService.Delete(int)'", etc. AS SUCH, went to "PizzaController.cs" and TRIED to make the code 
+    here AS MUCH AS POSSIBLE like the code visible there (UPDATE: dang... Re-doing the constructor as shown below and 
+    swapping-in `_service` for `PAPI_LibService` (e.g., what had been `var papi_lib = PAPI_LibService.GetById(id);` 
+    became `var papi_lib = _service.GetById(id);`) AND adding a `.ToList()` invocation within this file's `GetAll()` 
+    method definition SEEMINGLY got rid of all those errors (?)! Special shout-out to the simple suggestion found at 
+    https://github.com/aspnet/Mvc/issues/8061): */
+    PAPI_LibService _service;
+    
+    public PAPI_LibController(PAPI_LibService service)
     {
+        _service = service;
     }
 
     // GET all action
     [HttpGet]
     public ActionResult<List<PAPI_Lib>> GetAll() =>
-        PAPI_LibService.GetAll();
+        _service.GetAll().ToList();
 
     // GET by Id action
     [HttpGet("{id}")]
     public ActionResult<PAPI_Lib> Get(int id)
     {
-        var papi_lib = PAPI_LibService.Get(id);
+        var papi_lib = _service.GetById(id);
 
         if(papi_lib == null)
             return NotFound();
@@ -39,7 +47,7 @@ public class PAPI_LibController : ControllerBase
     public async Task<IActionResult> Post()
     {            
         PAPI_Lib papi_lib = new PAPI_Lib();
-        await PAPI_LibService.Add(papi_lib);
+        await _service.Add(papi_lib);
         return CreatedAtAction(nameof(Get), new { id = papi_lib.Id }, papi_lib);
     }
 
@@ -56,7 +64,7 @@ public class PAPI_LibController : ControllerBase
         //if (id != papi_lib.Id)
             //return BadRequest();
             
-        var existingPAPI_Lib = PAPI_LibService.Get(id);
+        var existingPAPI_Lib = _service.GetById(id);
         if(existingPAPI_Lib is null)
             return NotFound();
     
@@ -70,7 +78,7 @@ public class PAPI_LibController : ControllerBase
         "PAPI_LibService.cs" and start re-writing the `Update()` method there so that while it does NOT take a `PAPI_Lib` 
         object as an input, it DOES FETCH the `PAPI_Lib` object with the matching `id` value and FROM THERE BASICALLY 
         re-executes the randomization process based on the `TemplateId` value or whatever (!):*/
-        PAPI_LibService.Update(existingPAPI_Lib); // (3/22/24, 4) Doing this contradicts what I wrote above, but let's try!
+        await _service.Update(existingPAPI_Lib); // (3/22/24, 4) Doing this contradicts what I wrote above, but let's try!
         /* (3/22/24, 4) LOOKS LIKE your conceptual pivot visible in the line of code immediately above this comment DID 
         work! */           
     
@@ -81,12 +89,12 @@ public class PAPI_LibController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var papi_lib = PAPI_LibService.Get(id);
+        var papi_lib = _service.GetById(id);
     
         if (papi_lib is null)
             return NotFound();
         
-        PAPI_LibService.Delete(id);
+        _service.Delete(id);
     
         return NoContent();
     }
