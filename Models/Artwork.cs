@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace PAPI_Libs.Models;
 
 /* (3/18/24, 3) I ended up using "https://wtools.io/convert-json-to-csharp-class" to "reverse-engineer" this C# class from an example JSON object 
-returned from The Metropolitan Museum of Art's Collection API. Let's PRAY that it works (...): */
+returned from The Metropolitan Museum of Art's Collection API: */
 
 public class ConstituentsItem
 {
@@ -44,9 +44,6 @@ public class MeasurementsItem
         public ElementMeasurements ElementMeasurements { get; set; }
 }
 
-/* (3/21/24, 7) VERY, VERY, VERY IMPORTANT! See your notes in the Word document "(3-16-24) Selected ID Values 
-from The Metropolitan Museum of Art’s Collection API" to see WHY you had to (partially) "re-reverse-engineer" 
-the `Artwork` model in specific regard to the `tags` property (!): */
 public class TagsItem
 {
         [JsonPropertyName("term")]
@@ -64,12 +61,6 @@ public class Artwork
         [JsonPropertyName("objectID")]
         public int ObjectID { get; set; }
 
-        /* (3/21/24, 4) Yeah... When testing the PAPI_Lib API, IF a given PAPI_Lib generation involves a `GET` call to The 
-        Metropolitan Museum of Art's Collection API, it is returning some error in the Swagger UI saying that the value
-        `True` or `False` for `isHighlight` returned from the API cannot be represented as a string. My guess is that the 
-        data type for this property SHOULD instead be `bool` (and that I will have to REPEATEDLY test the API now just to 
-        make sure that no other properties of the `Artwork` class were assigned errant data types during the JSON-to-C# 
-        reverse-engineering process...): */
         [JsonPropertyName("isHighlight")]
         public bool IsHighlight { get; set; }
 
@@ -78,9 +69,9 @@ public class Artwork
 
         [JsonPropertyName("accessionYear")]
         public string AccessionYear { get; set; }
-        /* (3/21/24, 5) Yup... Looks like the fear I expressed in the above comment may be true. AS A PRECAUTION, 
-        PRE-EMPTIVELY changing the data type of ANY property in the `Artwork` class prefaced by "is" from whatever it is 
-        listed as now (`string`, `int`, etc.) to `bool`. HOPEFULLY this should fix the issue(s): */
+        /* (3/21/24, 5) Yup... Looks like the fear I expressed in the above comment may be true. As a precaution, 
+        pre-emptively changing the data type of any property in the `Artwork` class prefaced by "is" from whatever it is 
+        listed as now (`string`, `int`, etc.) to `bool`. Hopefully this should fix the issue(s): */
         public bool IsPublicDomain { get; set; }
 
         [JsonPropertyName("primaryImage")]
@@ -227,17 +218,12 @@ public class Artwork
         [JsonPropertyName("objectURL")]
         public string ObjectURL { get; set; }
 
-        /* (3/21/24, 7) VERY, VERY, VERY IMPORTANT! See your notes in the Word document "(3-16-24) Selected ID Values 
-        from The Metropolitan Museum of Art’s Collection API" to see WHY you had to (partially) "re-reverse-engineer" 
-        the `Artwork` model in specific regard to this `tags` property (!): */
         [JsonPropertyName("tags")]
         public List<TagsItem>? Tags { get; set; }
 
         [JsonPropertyName("objectWikidata_URL")]
         public string ObjectWikidata_URL { get; set; }
 
-        /* (3/21/24, 6) Changing the data type for this class property from `string` to `bool` as described in previous 
-        comments in this file: */
         [JsonPropertyName("isTimelineWork")]
         public bool IsTimelineWork { get; set; }
 

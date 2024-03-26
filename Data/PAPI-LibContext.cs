@@ -1,7 +1,4 @@
-﻿/* (3/24/24, 4) Throughout this file, following the instructions under the "Scaffold models and 
-DbContext" header at https://learn.microsoft.com/en-us/training/modules/persist-data-ef-core/3-migrations: */
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PAPI_Libs.Models;
 
 namespace PAPI_Libs.Data;

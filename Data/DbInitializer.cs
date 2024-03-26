@@ -1,6 +1,4 @@
-﻿/* (3/24/24, 31) Adding-in this file per step #1 in the "Seed the database" section of the instructions/
-guidance available from https://learn.microsoft.com/en-us/training/modules/persist-data-ef-core/4-interacting-data: */
-using PAPI_Libs.Models;
+﻿using PAPI_Libs.Models;
 
 namespace PAPI_Libs.Data;
 
@@ -8,16 +6,11 @@ public static class DbInitializer
 {
     public static void Initialize(PAPI_LibContext context)
     {
-        /* (3/25/24, 1) TRYING the removal of `&& context.PAPI_Libs.Any()` to see if THAT will resolve our friendly 
-        error/exception "SQLite Error 19" (...): */
         if (context.PAPI_LibTemplates.Any())
         {
             return;   // DB has been seeded
         }
 
-        /* (3/24/24, 32) TOTALLY winging this in regard to "seeding" my database. As far as I am concerned, my expectation 
-        is that I will "seed" the database in almost exactly the same way that I seeded "PAPI_LibService.cs" with 
-        `PAPI_LibService` and `PAPI_Lib` objects for testing purposes. */
         var pAPI_LibTemplatesSeed = new PAPI_LibTemplate[]
         {
             new PAPI_LibTemplate

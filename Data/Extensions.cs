@@ -1,9 +1,4 @@
-﻿/* (3/24/24, 33) Adding-in this file per step #1 under "The `DbInitializer` class is ready to seed the database, but it 
-needs to be called from Program.cs. The following steps create an extension method for `IHost` that calls 
-`DbInitializer.Initialize`:" (available at 
-https://learn.microsoft.com/en-us/training/modules/persist-data-ef-core/4-interacting-data): */
-
-namespace PAPI_Libs.Data;
+﻿namespace PAPI_Libs.Data;
 
 public static class Extensions
 {

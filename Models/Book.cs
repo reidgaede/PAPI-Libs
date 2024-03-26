@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace PAPI_Libs.Models;
 
-public class Author
+public class Person
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -16,12 +16,6 @@ public class Author
 
     public class Formats
     {
-        /* (3/18/24, 2) For what it's worth, I had ALMOST given up hope on most everything regarding this project seeing as how the JSON objects returned 
-        from the "Gutendex" API were so strangely formatted (it would have been the straw that broke the camel's back). THAT SAID, when I made a last-ditch 
-        effort at reverse-engineering a C# class from the JSON objects returned by the "Gutendex" API (using https://json2csharp.com/), I was returned the 
-        contents of this file as seen now. The only modifications I made were the `using` and `namespace` statements at the top AND for every member in the 
-        "Formats" class, to replace `JsonProperty` (which for some reason returned an error) with `JsonPropertyName` (no guarantee that this will ultimately 
-        work, BUT it is worth a shot!): */
         [JsonPropertyName("text/html")]
         public string TextHtml { get; set; }
 
@@ -59,10 +53,10 @@ public class Author
         public string Title { get; set; }
 
         [JsonPropertyName("authors")]
-        public List<Author> Authors { get; set; }
+        public List<Person> Authors { get; set; }
 
         [JsonPropertyName("translators")]
-        public List<object> Translators { get; set; }
+        public List<Person> Translators { get; set; }
 
         [JsonPropertyName("subjects")]
         public List<string> Subjects { get; set; }
@@ -73,8 +67,12 @@ public class Author
         [JsonPropertyName("languages")]
         public List<string> Languages { get; set; }
 
+        /* (3/25/24, 1) After consulting documentation available at https://gutendex.com/, making the `Copyright` 
+        property NULLABLE in the HOPE that it will prevent seemingly-random 404 codes from being returned to the 
+        Swagger UI-based front-end when `POST` or `PUT` are called such that a `GET` call needs to be made to the 
+        Gutendex API: */
         [JsonPropertyName("copyright")]
-        public bool Copyright { get; set; }
+        public bool? Copyright { get; set; }
 
         [JsonPropertyName("media_type")]
         public string MediaType { get; set; }
@@ -83,5 +81,5 @@ public class Author
         public Formats Formats { get; set; }
 
         [JsonPropertyName("download_count")]
-        public int Download_count { get; set; }
+        public int DownloadCount { get; set; }
     }
