@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PAPI-Libs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a04edced57a87dd13d1b14ac997d2a2951874993")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e7eafb123150bc7b33779f573a286f4946f7890")]
 [assembly: System.Reflection.AssemblyProductAttribute("PAPI-Libs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PAPI-Libs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

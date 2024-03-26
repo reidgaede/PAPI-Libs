@@ -35,10 +35,7 @@ public class PAPI_LibService
     {
         Random numberGenerator = new Random();
         int selectedTemplateId = numberGenerator.Next(1, 6);
-        // (3/26/24) For testing purposes:
-        //int selectedTemplateId = 1;
-        //int selectedTemplateId = numberGenerator.Next(1, 3);
-
+        
         switch(selectedTemplateId)
         {
             case 1:
@@ -54,17 +51,6 @@ public class PAPI_LibService
                 string corporateBs = await ServiceUtilities.GetCorporateBuzzwords(selectedTemplate1.ApiUrlTwo);
                 string corporateBsFormatted = corporateBs.ToLower();
 
-                /* (3/26/24, 1) Alright! Let's give this a go (...): */
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate1.TemplateString;
-                papi_lib.OriginalQuote = selectedTemplate1.OriginalQuote;
-                papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate1.OriginalQuoteAuthorOrSource;
-                papi_lib.TemplateId = selectedTemplate1.Id;
-                papi_lib.CompletedString = $"When life gives you {fruitFormatted}, {corporateBsFormatted}.";
-                papi_lib.ApiUrlOne = selectedTemplate1.ApiUrlOne;
-                papi_lib.ApiNameOne = selectedTemplate1.ApiNameOne;
-                papi_lib.ApiUrlTwo = selectedTemplate1.ApiUrlTwo;
-                papi_lib.ApiNameTwo = selectedTemplate1.ApiNameTwo; */
-
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate1, fruitFormatted, corporateBsFormatted));
                 _context.SaveChanges();
                 break;
@@ -75,18 +61,7 @@ public class PAPI_LibService
                 musicGenre = musicGenre.Trim('"');
                 string musicGenreFormatted = ServiceUtilities.UppercaseFirst(musicGenre);
 
-                /* (3/26/24, 9) Having a SECOND go at implementing the `PAPI_LibBuilder()` method (...): */
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate2.TemplateString;
-                papi_lib.OriginalQuote = selectedTemplate2.OriginalQuote;
-                papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate2.OriginalQuoteAuthorOrSource;
-                papi_lib.TemplateId = selectedTemplate2.Id;
-                papi_lib.CompletedString = $"{musicGenreFormatted} makes the heart grow fonder.";
-                papi_lib.ApiUrlOne = selectedTemplate2.ApiUrlOne;
-                papi_lib.ApiNameOne = selectedTemplate2.ApiNameOne; */
-
-                /* (3/26/24, 10) SUCCESS!! NOW on to refactoring in the same mannner remaining three `case`s (!!!): */
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate2, musicGenreFormatted));
-                //_context.PAPI_Libs.Add(papi_lib);
                 _context.SaveChanges();
                 break;
             case 3:
@@ -94,24 +69,9 @@ public class PAPI_LibService
 
                 string genrenatorStoryUrl = selectedTemplate3.ApiUrlOne;
                 string musicStory = await ServiceUtilities.GetStory(genrenatorStoryUrl);
-                /* (3/25/24, 1) Candidate for FURTHER refactoring immediately below this (?): */
-                /* musicStory = musicStory.Trim('"');
-                string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
-                musicStoryFormatted += ","; */
                 string musicStoryFormatted = ServiceUtilities.FormatMusicStory(musicStory);
 
-                /* (3/26/24, 11) Having ANOTHER go at implementing the `PAPI_LibBuilder()` method (...): */
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate2.TemplateString;
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate3.TemplateString;
-                papi_lib.OriginalQuote = selectedTemplate3.OriginalQuote;
-                papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate3.OriginalQuoteAuthorOrSource;
-                papi_lib.TemplateId = selectedTemplate3.Id;
-                papi_lib.CompletedString = $"As Jesus was walking beside the Sea of Galilee, he saw two brothers, Simon called Peter and his brother Andrew. They were casting a net into the lake, for they were fishermen. '{musicStoryFormatted}' Jesus said. At once they left their nets and followed him.";
-                papi_lib.ApiUrlOne = selectedTemplate3.ApiUrlOne;
-                papi_lib.ApiNameOne = selectedTemplate3.ApiNameOne; */
-
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate3, musicStoryFormatted));
-                //_context.PAPI_Libs.Add(papi_lib);
                 _context.SaveChanges();
                 break;
             case 4:
@@ -123,23 +83,13 @@ public class PAPI_LibService
 
                 string book = await ServiceUtilities.GetBook(gutendexUrl);
 
-                /* (3/26/24, 12) Having ANOTHER go at implementing the `PAPI_LibBuilder()` method (...): */
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate4.TemplateString;
-                papi_lib.OriginalQuote = selectedTemplate4.OriginalQuote;
-                papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate4.OriginalQuoteAuthorOrSource;
-                papi_lib.TemplateId = selectedTemplate4.Id;
-                papi_lib.CompletedString = $"'{book}' is the Guide Which I Will Never Abandon.";
-                papi_lib.ApiUrlOne = selectedTemplate4.ApiUrlOne;
-                papi_lib.ApiNameOne = selectedTemplate4.ApiNameOne; */
-
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate4, book));
-                //_context.PAPI_Libs.Add(papi_lib);
                 _context.SaveChanges();
                 break;
             case 5:
                 PAPI_LibTemplate selectedTemplate5 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
-                List<int> idList = new List<int>
+                /* List<int> idList = new List<int>
                 {
                     16460,
                     72520,
@@ -167,26 +117,16 @@ public class PAPI_LibService
                     687539,
                     569710,
                     495324
-                };
+                }; */
 
-                int randomIndex = numberGenerator.Next(idList.Count);
-                int selectedArtworkId = idList[randomIndex];
+                int randomIndex = numberGenerator.Next(ServiceUtilities.ArtworkIdList.Count);
+                int selectedArtworkId = ServiceUtilities.ArtworkIdList[randomIndex];
 
                 string collectionApiUrl = String.Format(selectedTemplate5.ApiUrlOne, selectedArtworkId);
 
                 string artWork = await ServiceUtilities.GetArtwork(collectionApiUrl);
                 
-                /* (3/26/24, 13) Having ANOTHER go at implementing the `PAPI_LibBuilder()` method (...): */
-                /* papi_lib.PAPI_LibTemplate = selectedTemplate5.TemplateString;
-                papi_lib.OriginalQuote = selectedTemplate5.OriginalQuote;
-                papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate5.OriginalQuoteAuthorOrSource;
-                papi_lib.TemplateId = selectedTemplate5.Id;
-                papi_lib.CompletedString = $"I really believe that if you practice enough, you could paint '{artWork}' with a two-inch brush.";
-                papi_lib.ApiUrlOne = selectedTemplate5.ApiUrlOne;
-                papi_lib.ApiNameOne = selectedTemplate5.ApiNameOne; */
-
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate5, artWork));
-                //_context.PAPI_Libs.Add(papi_lib);
                 _context.SaveChanges();
                 break;
         }
@@ -245,10 +185,6 @@ public class PAPI_LibService
             case 3:
                 string genrenatorStoryUrl = pAPI_LibToUpdate.ApiUrlOne;
                 string musicStory = await ServiceUtilities.GetStory(genrenatorStoryUrl);
-                /* (3/25/24, 1) Candidate for FURTHER refactoring immediately below this (?): */
-                /* musicStory = musicStory.Trim('"');
-                string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
-                musicStoryFormatted += ","; */
                 string musicStoryFormatted = ServiceUtilities.FormatMusicStory(musicStory);
 
                 pAPI_LibToUpdate.CompletedString = $"As Jesus was walking beside the Sea of Galilee, he saw two brothers, Simon called Peter and his brother Andrew. They were casting a net into the lake, for they were fishermen. '{musicStoryFormatted}' Jesus said. At once they left their nets and followed him.";
@@ -266,7 +202,7 @@ public class PAPI_LibService
                 _context.SaveChanges();
                 break;
             case 5:
-                List<int> idList = new List<int>
+                /* List<int> idList = new List<int>
                 {
                     16460,
                     72520,
@@ -294,10 +230,12 @@ public class PAPI_LibService
                     687539,
                     569710,
                     495324
-                };
+                }; */
 
-                int randomIndex = putNumberGenerator.Next(idList.Count);
-                int selectedArtworkId = idList[randomIndex];
+                //int randomIndex = putNumberGenerator.Next(idList.Count);
+                //int selectedArtworkId = idList[randomIndex];
+                int randomIndex = putNumberGenerator.Next(ServiceUtilities.ArtworkIdList.Count);
+                int selectedArtworkId = ServiceUtilities.ArtworkIdList[randomIndex];
 
                 string collectionApiUrl = String.Format(pAPI_LibToUpdate.ApiUrlOne, selectedArtworkId);
                 string artWork = await ServiceUtilities.GetArtwork(collectionApiUrl);
