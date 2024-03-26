@@ -97,7 +97,6 @@ public class ServiceUtilities
         return papi_lib;
     }
 
-    /* (3/26/24, 1) Figured this out with Ernesto's help! */
     public static List<int> ArtworkIdList { get; set; } = new List<int>
     {
         16460,

@@ -89,36 +89,6 @@ public class PAPI_LibService
             case 5:
                 PAPI_LibTemplate selectedTemplate5 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
-                /* List<int> idList = new List<int>
-                {
-                    16460,
-                    72520,
-                    207528,
-                    261876,
-                    259686,
-                    269278,
-                    270797,
-                    282161,
-                    344619,
-                    347567,
-                    907116,
-                    905064,
-                    889576,
-                    888476,
-                    853075,
-                    814822,
-                    815150,
-                    787967,
-                    782239,
-                    756448,
-                    751191,
-                    716307,
-                    698842,
-                    687539,
-                    569710,
-                    495324
-                }; */
-
                 int randomIndex = numberGenerator.Next(ServiceUtilities.ArtworkIdList.Count);
                 int selectedArtworkId = ServiceUtilities.ArtworkIdList[randomIndex];
 
@@ -202,38 +172,6 @@ public class PAPI_LibService
                 _context.SaveChanges();
                 break;
             case 5:
-                /* List<int> idList = new List<int>
-                {
-                    16460,
-                    72520,
-                    207528,
-                    261876,
-                    259686,
-                    269278,
-                    270797,
-                    282161,
-                    344619,
-                    347567,
-                    907116,
-                    905064,
-                    889576,
-                    888476,
-                    853075,
-                    814822,
-                    815150,
-                    787967,
-                    782239,
-                    756448,
-                    751191,
-                    716307,
-                    698842,
-                    687539,
-                    569710,
-                    495324
-                }; */
-
-                //int randomIndex = putNumberGenerator.Next(idList.Count);
-                //int selectedArtworkId = idList[randomIndex];
                 int randomIndex = putNumberGenerator.Next(ServiceUtilities.ArtworkIdList.Count);
                 int selectedArtworkId = ServiceUtilities.ArtworkIdList[randomIndex];
 
