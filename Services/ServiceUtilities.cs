@@ -70,4 +70,12 @@ public class ServiceUtilities
             return artWork.Title;
         }
     }
+
+    internal static string FormatMusicStory(string musicStory)
+    {
+        musicStory = musicStory.Trim('"');
+        string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
+        musicStoryFormatted += ",";
+        return musicStoryFormatted;
+    }
 }

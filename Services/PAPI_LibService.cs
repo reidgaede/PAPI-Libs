@@ -43,42 +43,10 @@ public class PAPI_LibService
 
                 int selectedFruitId = numberGenerator.Next(64, 73);
 
-                /* (3/25/24, 3) Commenting-out the ORIGINAL definitino of the `GetFruit()` method for "archival" 
-                purposes: */
-                /* async Task<string> GetFruit(int id)
-                {
-                    string url = String.Format(selectedTemplate1.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string fruityviceResponse = await client.GetStringAsync(url);
-                        Fruit fruit = JsonSerializer.Deserialize<Fruit>(fruityviceResponse);
-
-                        return fruit.Name;
-                    }
-                } */
-
                 string fruityViceURL = String.Format(selectedTemplate1.ApiUrlOne, selectedFruitId);
 
-                /* (3/25/24, 4) Alright... So far so good. After re-writing the `GetFruit()` method so that it takes a STRING-
-                structured URL as opposed to an integer-structured ID value, I am HOPEFUL that I will be able to invoke the 
-                re-written version of this method (as NOW defined in "ServiceUtilities.cs") in the app's `Update()` method (...): */
                 string fruit = await ServiceUtilities.GetFruit(fruityViceURL);
                 string fruitFormatted = fruit.ToLower();
-
-                /* (3/25/24, 8) Continuing on with removing the DEFINITION of the `GetCorporateBuzzwords()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetCorporateBuzzwords()
-                {
-                    string url = selectedTemplate1.ApiUrlTwo;
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string corporateBuzzwordsResponse = await client.GetStringAsync(url);
-                        CorporateBuzzwords corporateBuzzwords = JsonSerializer.Deserialize<CorporateBuzzwords>(corporateBuzzwordsResponse);
-                        return corporateBuzzwords.Phrase;
-                    }
-                } */
 
                 string CorporateBuzzwordsURL = selectedTemplate1.ApiUrlTwo;
 
@@ -101,24 +69,9 @@ public class PAPI_LibService
             case 2:
                 PAPI_LibTemplate selectedTemplate2 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
-                /* (3/25/24, 9) Continuing on with removing the DEFINITION of the `GetGenre()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetGenre()
-                {
-                    string url = selectedTemplate2.ApiUrlOne;
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        return await client.GetStringAsync(url);
-                    }
-                } */
-
                 string genrenatorGenreUrl = selectedTemplate2.ApiUrlOne;
-                //string musicGenre = await GetGenre();
                 string musicGenre = await ServiceUtilities.GetGenre(genrenatorGenreUrl);
                 musicGenre = musicGenre.Trim('"');
-                /* (3/25/24, 2) Alright... Let's test this out and SEE if the app hits the fan (...): */
                 string musicGenreFormatted = ServiceUtilities.UppercaseFirst(musicGenre);
 
                 papi_lib.PAPI_LibTemplate = selectedTemplate2.TemplateString;
@@ -135,26 +88,13 @@ public class PAPI_LibService
             case 3:
                 PAPI_LibTemplate selectedTemplate3 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
-                /* (3/25/24, 10) Continuing on with removing the DEFINITION of the `GetStory()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetStory()
-                {
-                    string url = selectedTemplate3.ApiUrlOne;
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        return await client.GetStringAsync(url);
-                    }
-                } */
-
                 string genrenatorStoryUrl = selectedTemplate3.ApiUrlOne;
-                //string musicStory = await GetStory();
                 string musicStory = await ServiceUtilities.GetStory(genrenatorStoryUrl);
-                /* (3/25/24, 11) Candidate for FURTHER refactoring immediately below this (?): */
-                musicStory = musicStory.Trim('"');
+                /* (3/25/24, 1) Candidate for FURTHER refactoring immediately below this (?): */
+                /* musicStory = musicStory.Trim('"');
                 string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
-                musicStoryFormatted += ",";
+                musicStoryFormatted += ","; */
+                string musicStoryFormatted = ServiceUtilities.FormatMusicStory(musicStory);
 
                 papi_lib.PAPI_LibTemplate = selectedTemplate3.TemplateString;
                 papi_lib.OriginalQuote = selectedTemplate3.OriginalQuote;
@@ -171,27 +111,9 @@ public class PAPI_LibService
                 PAPI_LibTemplate selectedTemplate4 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
                 int selectedBookId = numberGenerator.Next(1, 1001);
-
-                /* (3/25/24, 14) Continuing on with removing the DEFINITION of the `GetBook()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetBook(int id)
-                {
-                    string url = String.Format(selectedTemplate4.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string gutenedexResponse =  await client.GetStringAsync(url);
-
-                        Book book = JsonSerializer.Deserialize<Book>(gutenedexResponse);
-
-                        return book.Title;
-                    }
-                } */
-
+                
                 string gutendexUrl = String.Format(selectedTemplate4.ApiUrlOne, selectedBookId);
 
-                //string book = await GetBook(selectedBookId);
                 string book = await ServiceUtilities.GetBook(gutendexUrl);
 
                 papi_lib.PAPI_LibTemplate = selectedTemplate4.TemplateString;
@@ -241,28 +163,10 @@ public class PAPI_LibService
                 int randomIndex = numberGenerator.Next(idList.Count);
                 int selectedArtworkId = idList[randomIndex];
 
-                /* (3/25/24, 16) Continuing on with removing the DEFINITION of the `GetArtwork()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetArtwork(int id)
-                {
-                    string url = String.Format(selectedTemplate5.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string collectionApiResponse =  await client.GetStringAsync(url);
-
-                        Artwork artWork = JsonSerializer.Deserialize<Artwork>(collectionApiResponse);
-
-                        return artWork.Title;
-                    }
-                } */
-
                 string collectionApiUrl = String.Format(selectedTemplate5.ApiUrlOne, selectedArtworkId);
 
                 string artWork = await ServiceUtilities.GetArtwork(collectionApiUrl);
-                //string artWork = await GetArtwork(selectedArtworkId);
-
+                
                 papi_lib.PAPI_LibTemplate = selectedTemplate5.TemplateString;
                 papi_lib.OriginalQuote = selectedTemplate5.OriginalQuote;
                 papi_lib.OriginalQuoteAuthorOrSource = selectedTemplate5.OriginalQuoteAuthorOrSource;
@@ -303,44 +207,10 @@ public class PAPI_LibService
             case 1:
                 int selectedFruitId = putNumberGenerator.Next(64, 73);
 
-                /* (3/25/24, 5) Commenting-out the ORIGINAL definitino of the `GetFruit()` method for "archival" 
-                purposes: */
-                /* async Task<string> GetFruit(int id)
-                {
-                    string url = String.Format(pAPI_LibToUpdate.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string fruityviceResponse = await client.GetStringAsync(url);
-                        
-                        Fruit fruit = JsonSerializer.Deserialize<Fruit>(fruityviceResponse);
-
-                        return fruit.Name;
-                    }
-                } */
-
                 string fruityViceURL = String.Format(pAPI_LibToUpdate.ApiUrlOne, selectedFruitId);
 
-                /* (3/25/24, 6) Alright... So far so good. After re-writing the `GetFruit()` method so that it takes a STRING-
-                structured URL as opposed to an integer-structured ID value, I am HOPEFUL that I will be able to invoke the 
-                re-written version of this method (as NOW defined in "ServiceUtilities.cs") in the app's `Update()` method (...): */
-                //string fruit = await GetFruit(selectedFruitId);
-                string fruit = await ServiceUtilities.GetFruit(fruityViceURL); // (3/25/24, 7) IT WORKS!!! On to the next methods!
+                string fruit = await ServiceUtilities.GetFruit(fruityViceURL);
                 string fruitFormatted = fruit.ToLower();
-
-                /* (3/25/24, 8) Continuing on with removing the DEFINITION of the `GetCorporateBuzzwords()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetCorporateBuzzwords()
-                {
-                    string url = selectedTemplate1.ApiUrlTwo;
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string corporateBuzzwordsResponse = await client.GetStringAsync(url);
-                        CorporateBuzzwords corporateBuzzwords = JsonSerializer.Deserialize<CorporateBuzzwords>(corporateBuzzwordsResponse);
-                        return corporateBuzzwords.Phrase;
-                    }
-                } */
 
                 string CorporateBuzzwordsURL = pAPI_LibToUpdate.ApiUrlTwo;
 
@@ -352,24 +222,9 @@ public class PAPI_LibService
                 _context.SaveChanges();
                 break;
             case 2:
-                /* (3/25/24, 9) Continuing on with removing the DEFINITION of the `GetGenre()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetGenre()
-                {
-                    string url = pAPI_LibToUpdate.ApiUrlOne;
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        return await client.GetStringAsync(url);
-                    }
-                } */
-
                 string genrenatorGenreUrl = pAPI_LibToUpdate.ApiUrlOne;
-                //string musicGenre = await GetGenre();
                 string musicGenre = await ServiceUtilities.GetGenre(genrenatorGenreUrl);
                 musicGenre = musicGenre.Trim('"');
-                /* (3/25/24, 2) Alright... Let's test this out and SEE if the app hits the fan (...): */
                 string musicGenreFormatted = ServiceUtilities.UppercaseFirst(musicGenre);
 
                 pAPI_LibToUpdate.CompletedString = $"{musicGenreFormatted} makes the heart grow fonder.";
@@ -377,26 +232,13 @@ public class PAPI_LibService
                 _context.SaveChanges();
                 break;
             case 3:
-                /* (3/25/24, 12) Continuing on with removing the DEFINITION of the `GetStory()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE:*/
-                /* async Task<string> GetStory()
-                {
-                    string url = pAPI_LibToUpdate.ApiUrlOne;
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        return await client.GetStringAsync(url);
-                    }
-                } */
-
                 string genrenatorStoryUrl = pAPI_LibToUpdate.ApiUrlOne;
-                //string musicStory = await GetStory();
                 string musicStory = await ServiceUtilities.GetStory(genrenatorStoryUrl);
-                /* (3/25/24, 13) Candidate for FURTHER refactoring immediately below this (?): */
-                musicStory = musicStory.Trim('"');
+                /* (3/25/24, 1) Candidate for FURTHER refactoring immediately below this (?): */
+                /* musicStory = musicStory.Trim('"');
                 string musicStoryFormatted = musicStory.Remove(musicStory.Length - 1);
-                musicStoryFormatted += ",";
+                musicStoryFormatted += ","; */
+                string musicStoryFormatted = ServiceUtilities.FormatMusicStory(musicStory);
 
                 pAPI_LibToUpdate.CompletedString = $"As Jesus was walking beside the Sea of Galilee, he saw two brothers, Simon called Peter and his brother Andrew. They were casting a net into the lake, for they were fishermen. '{musicStoryFormatted}' Jesus said. At once they left their nets and followed him.";
                 
@@ -405,25 +247,7 @@ public class PAPI_LibService
             case 4:
                 int selectedBookId = putNumberGenerator.Next(1, 1001);
 
-                /* (3/25/24, 15) Continuing on with removing the DEFINITION of the `GetBook()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetBook(int id)
-                {
-                    string url = String.Format(pAPI_LibToUpdate.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string gutenedexResponse =  await client.GetStringAsync(url);
-
-                        Book book = JsonSerializer.Deserialize<Book>(gutenedexResponse);
-
-                        return book.Title;
-                    }
-                } */
-
                 string gutendexUrl = String.Format(pAPI_LibToUpdate.ApiUrlOne, selectedBookId);
-                //string book = await GetBook(selectedBookId);
                 string book = await ServiceUtilities.GetBook(gutendexUrl);
 
                 pAPI_LibToUpdate.CompletedString = $"'{book}' is the Guide Which I Will Never Abandon.";
@@ -464,25 +288,7 @@ public class PAPI_LibService
                 int randomIndex = putNumberGenerator.Next(idList.Count);
                 int selectedArtworkId = idList[randomIndex];
 
-                /* (3/25/24, 17) Continuing on with removing the DEFINITION of the `GetArtwork()` method, removing it 
-                to "ServiceUtilities.cs" and MODIFYING IT so that it accepts a string-structured URL that is BUILT WITHIN THIS 
-                SERVICE: */
-                /* async Task<string> GetArtwork(int id)
-                {
-                    string url = String.Format(pAPI_LibToUpdate.ApiUrlOne, id);
-                    
-                    using (HttpClient client = new HttpClient())
-                    {
-                        string collectionApiResponse =  await client.GetStringAsync(url);
-
-                        Artwork artWork = JsonSerializer.Deserialize<Artwork>(collectionApiResponse);
-
-                        return artWork.Title;
-                    }
-                } */
-
                 string collectionApiUrl = String.Format(pAPI_LibToUpdate.ApiUrlOne, selectedArtworkId);
-                //string artWork = await GetArtwork(selectedArtworkId);
                 string artWork = await ServiceUtilities.GetArtwork(collectionApiUrl);
 
                 pAPI_LibToUpdate.CompletedString = $"I really believe that if you practice enough, you could paint '{artWork}' with a two-inch brush.";
@@ -491,12 +297,4 @@ public class PAPI_LibService
                 break;
         }        
     }
-
-    /* (3/25/24, 2) Commenting this method definition out in the HOPE that I can (safely) move it to another file (i.e., 
-    "ServiceUtilities.cs") WHILE STILL invoking it here (NOTE that the following documentation was surprisingly helpful in 
-    figuring this out: https://learn.microsoft.com/en-us/dotnet/csharp/misc/cs0176?f1url=%3FappId%3Droslyn%26k%3Dk(CS0176)): */
-    /* public static string UppercaseFirst(string s)
-    {
-        return char.ToUpper(s[0]) + s.Substring(1);
-    } */
 }
