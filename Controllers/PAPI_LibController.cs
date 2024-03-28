@@ -15,12 +15,12 @@ public class PAPI_LibController : ControllerBase
         _service = service;
     }
 
-    // GET all action
+    // `GET [All]` action:
     [HttpGet]
     public ActionResult<List<PAPI_Lib>> GetAll() =>
         _service.GetAll().ToList();
 
-    // GET by Id action
+    // `GET [by Id]` action:
     [HttpGet("{id}")]
     public ActionResult<PAPI_Lib> Get(int id)
     {
@@ -32,7 +32,7 @@ public class PAPI_LibController : ControllerBase
         return papi_lib;
     }
 
-    // POST action
+    // `POST` action:
     [HttpPost]
     public async Task<IActionResult> Post()
     {            
@@ -41,7 +41,7 @@ public class PAPI_LibController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = papi_lib.Id }, papi_lib);
     }
 
-    // PUT action
+    // `PUT` action:
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id)
     {
@@ -54,7 +54,7 @@ public class PAPI_LibController : ControllerBase
         return NoContent();
     }
 
-    // DELETE action
+    // `DELETE` action:
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {

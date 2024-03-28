@@ -7,9 +7,7 @@
     <RootNamespace>PAPI_Libs</RootNamespace>
   </PropertyGroup>
 
-  <!-- (3/24/24, 1) Per instructions available at 
-  https://github.com/MicrosoftDocs/mslearn-persist-data-ef-core/blob/main/ContosoPizza/Program.cs, adding-in 
-  the "Microsoft.EntityFrameworkCore.Design" and "Microsoft.EntityFrameworkCore.Sqlite" packages in our project: -->
+
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
