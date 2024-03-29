@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+/* As the name implies, this file is a collection for the most part of definitions for methods 
+invoked more than once within "PAPI_LibService.cs" (in particular, those methods executing `GET` 
+requests to outside APIs). */
+
+using System.Text.Json;
 using PAPI_Libs.Models;
 
 namespace PAPI_Libs;
@@ -79,6 +83,10 @@ public class ServiceUtilities
         return musicStoryFormatted;
     }
 
+    /* This method contains an optional argument `libValue2` purely to account for the unintended edge case 
+    of building a `PAPI_Lib` object using the `PAPI_LibTemplate` with an `Id` value of 1 (this template is 
+    unique in that it is the only one that specifies `GET` requests be made to two separate APIs in order to 
+    populate the final `PAPI_Lib` object's `CompletedString` property): */
     internal static PAPI_Lib PAPI_LibBuilder(
         PAPI_Lib papi_lib, PAPI_LibTemplate template, string libValue1, string libValue2 = "No Input.")
     {
