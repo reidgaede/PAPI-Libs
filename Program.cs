@@ -31,10 +31,4 @@ app.MapControllers();
 
 app.CreateDbIfNotExists();
 
-/* (3/24/24, 2) The following lines of code were present in "Program.cs" at 
-https://github.com/MicrosoftDocs/mslearn-persist-data-ef-core/blob/main/ContosoPizza/Program.cs. They can probably be 
-"commented-in" if/as necessary as you progress with your efforts: */
-// Add the CreateDbIfNotExists method call
-//app.MapGet("/", () => @"Contoso Pizza management API. Navigate to /swagger to open the Swagger test UI.");
-
 app.Run();
