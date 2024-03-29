@@ -1,4 +1,7 @@
-﻿using PAPI_Libs.Models;
+/* When application is first built/run following download/clone from GitHub, seed the "PAPI_LibTemplates" table with five 
+`PAPI_LibTemplate` objects and seed the "PAPI_Libs" table with two `PAPI_Lib` objects: */
+
+using PAPI_Libs.Models;
 
 namespace PAPI_Libs.Data;
 
