@@ -1,3 +1,7 @@
+/* Code in this file principally handles interaction between "PAPI_LibController.cs" and the database context.
+File contents should be rather standard with exception of contents of the `Add()` and `Update()` methods, which 
+are highly customized and constitute the vast majority of this file's code. */
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using System.Text.Json;
@@ -34,23 +38,36 @@ public class PAPI_LibService
     public async Task Add(PAPI_Lib papi_lib)
     {
         Random numberGenerator = new Random();
+
+        /* Randomly generating an `Id` value with which to obtain a `PAPI_LibTemplate` from the 
+        "PAPI_LibTemplates" table in our database context: */
         int selectedTemplateId = numberGenerator.Next(1, 6);
-        
+
+        /* Number of `switch()` cases corresponds exactly with number of unique `PAPI_LibTemplate` objects pre-populated 
+        in "PAPI-Libs.db" when app is built/run for first time: */
         switch(selectedTemplateId)
         {
             case 1:
                 PAPI_LibTemplate selectedTemplate1 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
+                /* For Fruityvice API, 64 to 72 was longest stretch of consecutive, `GET`-able objects on basis of ID value: */
                 int selectedFruitId = numberGenerator.Next(64, 73);
 
+                /* Using `String.Format()` to insert/interpolate an ID value into the URL used to make a `GET` request to the 
+                Fruityvice API: */
                 string fruityViceURL = String.Format(selectedTemplate1.ApiUrlOne, selectedFruitId);
 
+                // Executing asynchronous `GET` request to Fruityvice API:
                 string fruit = await ServiceUtilities.GetFruit(fruityViceURL);
                 string fruitFormatted = fruit.ToLower();
 
+                /* Corporate Buzzword Generator API always returns a random string, so not necessary to interpolate an ID value at end 
+                of a URL string: */
                 string corporateBs = await ServiceUtilities.GetCorporateBuzzwords(selectedTemplate1.ApiUrlTwo);
                 string corporateBsFormatted = corporateBs.ToLower();
 
+                /* Populating the `PAPI_Lib` object bound to variable name `papi_lib` with values for all relevant properties and interpolating 
+                `fruitFormatted` and `corporateBsFormatted` into `PAPI_Lib` object's `CompletedString` property: */
                 _context.PAPI_Libs.Add(ServiceUtilities.PAPI_LibBuilder(papi_lib, selectedTemplate1, fruitFormatted, corporateBsFormatted));
                 _context.SaveChanges();
                 break;
@@ -89,6 +106,11 @@ public class PAPI_LibService
             case 5:
                 PAPI_LibTemplate selectedTemplate5 = _context.PAPI_LibTemplates.Find(selectedTemplateId);
 
+                /* Similar to the Fruityvice API, The Metropolitan Museum of Art's Collection API does not boast a 
+                wonderfully long list of consecutive ID values that can be productively queried via randomly-generated 
+                ID values across a single range of integer values. As such, ID values for random pieces of art within 
+                the API were selected and stored in the `ArtworkIdList` List found in "ServiceUtilities.cs" as a 
+                sample of the kinds of art that could be obtained from this API: */
                 int randomIndex = numberGenerator.Next(ServiceUtilities.ArtworkIdList.Count);
                 int selectedArtworkId = ServiceUtilities.ArtworkIdList[randomIndex];
 
