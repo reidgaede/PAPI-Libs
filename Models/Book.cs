@@ -67,10 +67,10 @@ public class Person
         [JsonPropertyName("languages")]
         public List<string> Languages { get; set; }
 
-        /* (3/25/24, 1) After consulting documentation available at https://gutendex.com/, making the `Copyright` 
-        property NULLABLE in the HOPE that it will prevent seemingly-random 404 codes from being returned to the 
-        Swagger UI-based front-end when `POST` or `PUT` are called such that a `GET` call needs to be made to the 
-        Gutendex API: */
+        /* After consulting documentation available at https://gutendex.com/, making the `Copyright` 
+        property nullable in the hope that it will prevent seemingly-random 404 codes from being returned 
+        to the Swagger UI-based front-end when `POST` or `PUT` are called such that a `GET` call needs to 
+        be made to the Gutendex API: */
         [JsonPropertyName("copyright")]
         public bool? Copyright { get; set; }
 
