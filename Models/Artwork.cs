@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace PAPI_Libs.Models;
 
-/* (3/18/24, 3) I ended up using "https://wtools.io/convert-json-to-csharp-class" to "reverse-engineer" this C# class from an example JSON object 
-returned from The Metropolitan Museum of Art's Collection API: */
+/* Used https://wtools.io/convert-json-to-csharp-class to reverse-engineer this C# class from an example JSON object 
+returned from The Metropolitan Museum of Art's Collection API. */
 
 public class ConstituentsItem
 {
@@ -69,9 +69,8 @@ public class Artwork
 
         [JsonPropertyName("accessionYear")]
         public string AccessionYear { get; set; }
-        /* (3/21/24, 5) Yup... Looks like the fear I expressed in the above comment may be true. As a precaution, 
-        pre-emptively changing the data type of any property in the `Artwork` class prefaced by "is" from whatever it is 
-        listed as now (`string`, `int`, etc.) to `bool`. Hopefully this should fix the issue(s): */
+
+        [JsonPropertyname("isPublicDomain")]
         public bool IsPublicDomain { get; set; }
 
         [JsonPropertyName("primaryImage")]
