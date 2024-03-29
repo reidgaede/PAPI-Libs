@@ -2,7 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace PAPI_Libs.Models;
 
-/* (3/17/24, 14) I obtained the below "code" for the `Fruit` class from https://wtools.io/convert-json-to-csharp-class: */
+/* Obtained the below structure for the `Fruit` class by passing a JSON returned from a random call to the 
+Fruityvice API into the JSON-to-C# reverse engineering tool at https://wtools.io/convert-json-to-csharp-class: */
 public class Nutritions
 {
         [JsonPropertyName("calories")]
