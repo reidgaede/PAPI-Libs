@@ -70,7 +70,7 @@ public class Artwork
         [JsonPropertyName("accessionYear")]
         public string AccessionYear { get; set; }
 
-        [JsonPropertyname("isPublicDomain")]
+        [JsonPropertyName("isPublicDomain")]
         public bool IsPublicDomain { get; set; }
 
         [JsonPropertyName("primaryImage")]
